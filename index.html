@@ -2218,15 +2218,15 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
         <div class="cf-title">Escríbeme directamente</div>
         <p class="cf-subtitle">Cuéntame en qué puedo ayudarte — respondo en menos de 48 horas.</p>
         <form id="msgForm" onsubmit="handleSubmit(event)" novalidate>
-          <div class="form-group"><label>Nombre</label><input type="text" id="fName" placeholder="Tu nombre completo" required></div>
-          <div class="form-group"><label>Correo electrónico</label><input type="email" id="fEmail" placeholder="tu@email.com" required></div>
-          <div class="form-group"><label>¿En qué puedo ayudarte?</label><textarea rows="4" id="fMessage" placeholder="Cuéntame sobre tu proyecto, organización o idea..." required></textarea></div>
+          <div class="form-group"><label>Nombre</label><input type="text" id="fName" name="name" placeholder="Tu nombre completo" required></div>
+          <div class="form-group"><label>Correo electrónico</label><input type="email" id="fEmail" name="email" placeholder="tu@email.com" required></div>
+          <div class="form-group"><label>¿En qué puedo ayudarte?</label><textarea rows="4" id="fMessage" name="message" placeholder="Cuéntame sobre tu proyecto, organización o idea..." required></textarea></div>
           <button type="submit" class="form-submit" id="submitBtn"><span>Enviar mensaje</span></button>
         </form>
         <div class="form-success" id="formSuccess">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          <h4>Mensaje preparado</h4>
-          <p>Tu cliente de correo se abrió con el mensaje listo para enviar.</p>
+          <h4>¡Mensaje enviado!</h4>
+          <p>Recibí tu mensaje. Te respondo en menos de 48 horas.</p>
         </div>
       </div>
     </div>
@@ -2475,24 +2475,36 @@ function closeModal(e){if(e.target===document.getElementById('modalOverlay'))clo
 function closeModalForce(){document.getElementById('modalOverlay').classList.remove('show');document.body.style.overflow=''}
 
 // ─── FORM ───
-function handleSubmit(e){
+async function handleSubmit(e){
   e.preventDefault();
   const name=document.getElementById('fName').value.trim();
   const email=document.getElementById('fEmail').value.trim();
   const message=document.getElementById('fMessage').value.trim();
   if(!name||!email||!message){showToast('Por favor completa todos los campos.');return;}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showToast('Por favor ingresa un correo válido.');return;}
-  const subject=encodeURIComponent('Mensaje desde tu website — '+name);
-  const body=encodeURIComponent('Nombre: '+name+'\nCorreo: '+email+'\n\nMensaje:\n'+message);
   const btn=document.getElementById('submitBtn');
-  btn.querySelector('span').textContent='Abriendo correo...';
+  btn.querySelector('span').textContent='Enviando...';
   btn.disabled=true;
-  window.location.href='mailto:mercadoalexis677@gmail.com?subject='+subject+'&body='+body;
-  setTimeout(()=>{
-    document.getElementById('msgForm').style.display='none';
-    document.getElementById('formSuccess').classList.add('show');
-    showToast('¡Correo preparado! Envíalo desde tu cliente de correo.');
-  },800);
+  try{
+    const res=await fetch('https://formspree.io/f/meepdpra',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({name,email,message})
+    });
+    if(res.ok){
+      document.getElementById('msgForm').style.display='none';
+      document.getElementById('formSuccess').classList.add('show');
+      showToast('¡Mensaje enviado correctamente!');
+    } else {
+      btn.querySelector('span').textContent='Enviar mensaje';
+      btn.disabled=false;
+      showToast('Hubo un problema al enviar. Intenta de nuevo.');
+    }
+  } catch(err){
+    btn.querySelector('span').textContent='Enviar mensaje';
+    btn.disabled=false;
+    showToast('Error de conexión. Verifica tu internet e intenta de nuevo.');
+  }
 }
 
 // ─── ESC KEY ───
