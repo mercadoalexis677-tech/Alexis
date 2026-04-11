@@ -1049,7 +1049,9 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   .nav-links {
     display: none;
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    
     background: #000000;
     flex-direction: column;
     align-items: center;
@@ -2572,13 +2574,21 @@ window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scro
 function toggleNav(){
   const links=document.getElementById('navLinks');
   const btn=document.getElementById('menuBtn');
-  links.classList.toggle('open');
-  btn.classList.toggle('open');
-  document.body.style.overflow=links.classList.contains('open')?'hidden':'';
+  const isOpen=links.classList.contains('open');
+  
+  if(!isOpen){
+    links.classList.add('open');
+    btn.classList.add('open');
+    document.body.style.overflow='hidden';
+  }else{
+    closeNav();
+  }
 }
 function closeNav(){
-  document.getElementById('navLinks').classList.remove('open');
-  document.getElementById('menuBtn').classList.remove('open');
+  const links=document.getElementById('navLinks');
+  const btn=document.getElementById('menuBtn');
+  links.classList.remove('open');
+  btn.classList.remove('open');
   document.body.style.overflow='';
 }
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){const t=document.querySelector(this.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
