@@ -107,6 +107,7 @@ nav {
   position:sticky; top:0; width:100%; z-index:1000;
   padding:1.6rem 2.4rem;
   transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+  background: var(--ink-2); /* ← FIX: fondo sólido desde carga inicial — prev. texto blanco invisible sobre body blanco */
 }
 nav.scrolled {
   background: rgba(255,255,255,0.96);
@@ -132,14 +133,15 @@ nav.scrolled .logo-img { filter:none; }
 }
 nav.scrolled .logo-text { color: var(--ink); }
 
-.nav-links { display:flex; gap:2rem; list-style:none; align-items:center; }
+.nav-links { display:flex; gap:0.6rem; list-style:none; align-items:center; flex-wrap:nowrap; }
 .nav-links a {
   text-decoration:none;
   font-family:'DM Sans', sans-serif;
-  font-size:0.72rem; font-weight:500; letter-spacing:1.5px; text-transform:uppercase;
+  font-size:0.64rem; font-weight:500; letter-spacing:1.2px; text-transform:uppercase;
   color:rgba(255,255,255,0.6);
   transition:color 0.3s;
   position:relative;
+  white-space:nowrap;
 }
 nav.scrolled .nav-links a { color:var(--muted); }
 .nav-links a:hover { color:var(--white); }
@@ -1040,21 +1042,88 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   .cta-band { padding:4rem 2rem; }
 }
 @media(max-width:768px) {
-  nav { padding:1.2rem 1.5rem; }
-  nav.scrolled { padding:0.8rem 1.5rem; }
+  nav { padding:1.1rem 1.4rem; }
+  nav.scrolled { padding:0.75rem 1.4rem; }
+
+  /* ── FULLSCREEN MOBILE MENU ── */
   .nav-links {
-    display:none; position:fixed; inset:0;
-    background:rgba(8,8,16,0.97); backdrop-filter:blur(30px);
-    flex-direction:column; align-items:center; justify-content:center;
-    gap:2rem; z-index:999;
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #000000;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+    gap: 0;
+    list-style: none;
+    padding: 5rem 0 3rem;
+    overflow-y: auto;
   }
-  .nav-links.open { display:flex; }
-  .nav-links a { color:rgba(255,255,255,0.6) !important; font-size:1rem; }
-  .menu-btn { display:flex; }
-  .menu-btn.open span { background:var(--white) !important; }
-  .menu-btn.open span:nth-child(1) { transform:rotate(45deg) translate(4px,4px); }
-  .menu-btn.open span:nth-child(2) { opacity:0; }
-  .menu-btn.open span:nth-child(3) { transform:rotate(-45deg) translate(4px,-4px); }
+  .nav-links.open { display: flex; }
+
+  /* Separadores elegantes entre ítems */
+  .nav-links li {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .nav-links li:first-child {
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* Links del menú móvil */
+  .nav-links a {
+    display: block !important;
+    padding: 1.15rem 2rem !important;
+    color: rgba(255,255,255,0.65) !important;
+    font-size: 0.72rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 2.5px !important;
+    text-transform: uppercase !important;
+    white-space: normal !important;
+    line-height: 1.4 !important;
+    transition: color 0.25s ease, background 0.25s ease !important;
+  }
+  .nav-links a:hover,
+  .nav-links a:active {
+    color: var(--gold-2) !important;
+    background: rgba(184,149,42,0.05) !important;
+  }
+  .nav-links a::after { display: none !important; }
+
+  /* CTA del menú móvil — dorado destacado */
+  .nav-links .nav-cta {
+    color: var(--gold-2) !important;
+    background: rgba(184,149,42,0.08) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 1.15rem 2rem !important;
+    letter-spacing: 2.5px !important;
+    font-size: 0.72rem !important;
+  }
+  .nav-links .nav-cta:hover {
+    background: rgba(184,149,42,0.15) !important;
+    color: var(--gold-3) !important;
+  }
+
+  /* Hamburger */
+  .menu-btn {
+    display: flex;
+    padding: 10px;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    position: relative;
+  }
+  .menu-btn span { width: 24px; height: 2px; border-radius: 2px; transition: all 0.3s ease; }
+  .menu-btn.open span { background: var(--white) !important; }
+  .menu-btn.open span:nth-child(1) { transform: rotate(45deg) translate(3px, 3px); }
+  .menu-btn.open span:nth-child(2) { opacity: 0; width: 0; }
+  .menu-btn.open span:nth-child(3) { transform: rotate(-45deg) translate(3px, -3px); }
   .hero-stats { grid-template-columns:repeat(3,1fr); }
   .hero h1 { font-size:2.8rem; }
   .areas-grid { grid-template-columns:1fr 1fr; }
@@ -1815,10 +1884,13 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
       <span class="logo-text">AJMC</span>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#timeline" onclick="closeNav()" class="nav-link">Trayectoria</a></li>
-      <li><a href="#skills" onclick="closeNav()" class="nav-link">Competencias</a></li>
-      <li><a href="#servicios" onclick="closeNav()" class="nav-link">Portafolio y Recomendaciones</a></li>
-      <li><a href="#contact" onclick="closeNav()" class="nav-link nav-cta">Contacto</a></li>
+      <li><a href="#agenda"   onclick="closeNav()" class="nav-link nav-cta">Agendar cita</a></li>
+      <li><a href="#"         onclick="openRecGallery(); closeNav(); return false;" class="nav-link">Cartas de recomendación</a></li>
+      <li><a href="#timeline" onclick="closeNav()" class="nav-link">Formación y experiencia</a></li>
+      <li><a href="#skills"   onclick="closeNav()" class="nav-link">Áreas de experiencia</a></li>
+      <li><a href="#servicios" onclick="closeNav()" class="nav-link">Servicios</a></li>
+      <li><a href="#"         onclick="openPortfolioGallery(); closeNav(); return false;" class="nav-link">Ver mi portafolio</a></li>
+      <li><a href="#contact"  onclick="closeNav()" class="nav-link">Contactos</a></li>
     </ul>
     <button class="menu-btn" id="menuBtn" onclick="toggleNav()" aria-label="Menú">
       <span></span><span></span><span></span>
@@ -2497,8 +2569,18 @@ window.addEventListener('scroll',()=>{
 // ─── NAV ───
 const nav=document.getElementById('navbar');
 window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>80));
-function toggleNav(){document.getElementById('navLinks').classList.toggle('open');document.getElementById('menuBtn').classList.toggle('open')}
-function closeNav(){document.getElementById('navLinks').classList.remove('open');document.getElementById('menuBtn').classList.remove('open')}
+function toggleNav(){
+  const links=document.getElementById('navLinks');
+  const btn=document.getElementById('menuBtn');
+  links.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow=links.classList.contains('open')?'hidden':'';
+}
+function closeNav(){
+  document.getElementById('navLinks').classList.remove('open');
+  document.getElementById('menuBtn').classList.remove('open');
+  document.body.style.overflow='';
+}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){const t=document.querySelector(this.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
 
 // ─── LOGO (base64) ───
