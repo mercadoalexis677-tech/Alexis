@@ -271,9 +271,14 @@ nav.scrolled .menu-btn span { background:var(--ink); }
   font-family:'DM Sans', sans-serif; font-size:0.72rem; font-weight:600;
   letter-spacing:1.5px; text-transform:uppercase;
   padding:0.9rem 2rem; border-radius:var(--r-sm); border:none; cursor:pointer;
-  transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+  transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),
+             box-shadow 0.35s cubic-bezier(0.16,1,0.3,1),
+             background 0.35s ease,
+             border-color 0.35s ease,
+             color 0.35s ease;
   text-decoration:none; display:inline-flex; align-items:center; gap:0.6rem;
   position:relative; overflow:hidden;
+  will-change:transform;
 }
 .btn::after {
   content:''; position:absolute; inset:0;
@@ -285,13 +290,30 @@ nav.scrolled .menu-btn span { background:var(--ink); }
   background:var(--grad-gold); color:var(--ink);
   box-shadow:0 4px 20px rgba(184,149,42,0.3);
 }
-.btn-gold:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(184,149,42,0.4); }
+.btn-gold:hover {
+  transform:translateY(-3px);
+  box-shadow:0 10px 36px rgba(184,149,42,0.5), 0 4px 12px rgba(184,149,42,0.2);
+}
+.btn-gold:active {
+  transform:translateY(1px);
+  box-shadow:0 2px 10px rgba(184,149,42,0.2);
+  transition-duration:0.1s;
+}
 
 .btn-ghost-white {
   background:transparent; color:rgba(255,255,255,0.7);
   border:1px solid rgba(255,255,255,0.15);
 }
-.btn-ghost-white:hover { border-color:rgba(184,149,42,0.5); color:var(--gold-2); transform:translateY(-2px); }
+.btn-ghost-white:hover {
+  border-color:rgba(184,149,42,0.5); color:var(--gold-2);
+  transform:translateY(-3px);
+  box-shadow:0 8px 28px rgba(184,149,42,0.12);
+}
+.btn-ghost-white:active {
+  transform:translateY(1px);
+  box-shadow:none;
+  transition-duration:0.1s;
+}
 
 /* Hero stats */
 .hero-stats {
@@ -439,7 +461,7 @@ section { padding:7rem 3rem; }
 .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
 .reveal.vis { opacity:1; transform:translateY(0); }
 .rd1{transition-delay:0.1s} .rd2{transition-delay:0.2s} .rd3{transition-delay:0.3s}
-.rd4{transition-delay:0.4s} .rd5{transition-delay:0.5s} .rd6{transition-delay:0.6s} .rd7{transition-delay:0.7s}
+.rd4{transition-delay:0.4s} .rd5{transition-delay:0.5s} .rd6{transition-delay:0.6s} .rd7{transition-delay:0.7s} .rd8{transition-delay:0.8s}
 
 /* ─── ABOUT ─── */
 .about { background:var(--white); }
@@ -629,7 +651,7 @@ section { padding:7rem 3rem; }
   background-size:40px 40px;
 }
 
-.skills-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.05); border-radius:var(--r-lg); overflow:hidden; position:relative; z-index:2; }
+.skills-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.05); border-radius:var(--r-lg); overflow:hidden; position:relative; z-index:2; }
 .skill-tile {
   background:rgba(255,255,255,0.02); padding:2rem 1.5rem;
   cursor:pointer; transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
@@ -945,10 +967,25 @@ footer {
   font-family:'DM Sans', sans-serif; font-size:0.72rem; font-weight:600;
   letter-spacing:1.5px; text-transform:uppercase;
   padding:0.85rem 2rem; border-radius:var(--r-sm); cursor:pointer;
-  transition:all 0.3s; display:inline-flex; align-items:center; gap:0.6rem;
+  transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),
+             box-shadow 0.35s cubic-bezier(0.16,1,0.3,1),
+             background 0.35s ease,
+             border-color 0.35s ease;
+  display:inline-flex; align-items:center; gap:0.6rem;
   text-decoration:none;
+  will-change:transform;
 }
-.btn-outline-gold:hover { background:rgba(184,149,42,0.1); border-color:var(--gold-2); transform:translateY(-2px); }
+.btn-outline-gold:hover {
+  background:rgba(184,149,42,0.1); border-color:var(--gold-2);
+  transform:translateY(-3px);
+  box-shadow:0 8px 28px rgba(184,149,42,0.2);
+}
+.btn-outline-gold:active {
+  transform:translateY(1px);
+  box-shadow:none;
+  background:rgba(184,149,42,0.05);
+  transition-duration:0.1s;
+}
 
 /* Mobile hero card compact */
 .hero-mobile-card {
@@ -999,7 +1036,7 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   .about-layout, .contact-layout, .profile-grid, .services-layout, .services-intro { grid-template-columns:1fr; }
   .about-layout { gap:3rem; }
   .contact-layout { gap:3rem; }
-  .skills-grid { grid-template-columns:repeat(2,1fr); }
+  .skills-grid { grid-template-columns:repeat(3,1fr); }
   .cta-band { padding:4rem 2rem; }
 }
 @media(max-width:768px) {
@@ -1021,6 +1058,14 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   .hero-stats { grid-template-columns:repeat(3,1fr); }
   .hero h1 { font-size:2.8rem; }
   .areas-grid { grid-template-columns:1fr 1fr; }
+
+  /* ─── PREMIUM SPACING — RESPIRO VISUAL ─── */
+  section                { padding: 5rem 1.5rem; }
+  .hero-content          { padding-bottom: 5rem; }
+  .portfolio-section     { padding: 5.5rem 1.5rem; }
+  .booking-section       { padding: 5.5rem 1.5rem; }
+  .contact-section       { padding: 5.5rem 1.5rem; }
+
   /* ─── GALLERY RESPONSIVE FIXES ─── */
   .portfolio-gallery-inner { padding: 1.5rem 1rem; }
   .gallery-slide { width: 85vw; max-width: 85vw; margin: 0 auto; padding: 0 0.5rem; box-sizing: border-box; }
@@ -1031,8 +1076,11 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   .gallery-counter { font-size: 0.8rem; min-width: 50px; }
 }
 @media(max-width:500px) {
-  section { padding:3.5rem 1.5rem; }
-  .hero { padding:0 1.5rem; }
+  section            { padding: 4.5rem 1.5rem; }
+  .portfolio-section { padding: 4.5rem 1.5rem; }
+  .booking-section   { padding: 4.5rem 1.5rem; }
+  .contact-section   { padding: 4.5rem 1.5rem; }
+  .hero              { padding: 0 1.5rem; }
   .hero h1 { font-size:2.2rem; }
   .skills-grid { grid-template-columns:1fr; }
   .hero-stats { grid-template-columns:1fr 1fr; }
@@ -1337,7 +1385,7 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   .booking-divider { margin-left: auto; margin-right: auto; }
 }
 @media (max-width: 600px) {
-  .booking-section { padding: 5rem 1.5rem; }
+  .booking-section { padding: 5.5rem 1.5rem; }
   .booking-card { padding: 2rem 1.5rem; }
   /* ── Normalización de botones CTA en móvil ── */
   .booking-cta-btn,
@@ -1449,16 +1497,16 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   .hero-content { grid-template-columns: 1fr; }
   .hero-right { align-items: center; order: -1; padding-bottom: 1rem; }
   .hero-photo-ring { width: 180px; height: 180px; }
-  .gallery-slide img { max-height: 50vh; }
+  .gallery-slide img { height: 40vh; max-height: 40vh; }
 }
 @media (max-width: 600px) {
   .hero-photo-ring { width: 150px; height: 150px; }
-  .gallery-slide img { max-height: 40vh; width: 90vw; }
+  .gallery-slide img { height: 35vh; max-height: 35vh; width: 90vw; }
   .portfolio-content { flex-direction: column; text-align: center; }
 }
 
 @media (max-width: 480px) {
-  .gallery-slide img { max-height: 35vh; }
+  .gallery-slide img { height: 30vh; max-height: 30vh; }
   .portfolio-text h2 { font-size: 1.4rem; }
   .gallery-controls { flex-wrap: wrap; gap: 1rem; }
 }
@@ -1551,6 +1599,12 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 }
 .btn-large:hover {
   transform: translateY(-4px) !important;
+  box-shadow: 0 14px 42px rgba(184,149,42,0.45), 0 4px 14px rgba(184,149,42,0.2) !important;
+}
+.btn-large:active {
+  transform: translateY(1px) !important;
+  box-shadow: 0 2px 12px rgba(184,149,42,0.2) !important;
+  transition-duration: 0.1s !important;
 }
 
 /* ─── PORTFOLIO GALLERY MODAL ─── */
@@ -1584,6 +1638,7 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   padding: 2rem 1rem;
   position: relative;
   box-sizing: border-box;
+  overflow-y: auto;                       /* ← Seguridad: scroll si algo desborda */
 }
 .gallery-close-btn {
   position: absolute;
@@ -1624,11 +1679,13 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 }
 .gallery-slide img {
   width: 100%;
-  height: auto;
-  border-radius: var(--r-lg);
+  height: 45vh;                           /* ← FIJO: elimina el salto de botones */
+  max-height: 45vh;
+  border-radius: 12px;                    /* ← Bordes redondeados modernos (era var(--r-lg)) */
   box-shadow: 0 20px 80px rgba(0,0,0,0.4);
-  max-height: 60vh;
   object-fit: cover;
+  display: block;                         /* ← Evita espacio inline debajo de img */
+  flex-shrink: 0;                         /* ← No se comprime en layouts flex */
 }
 .gallery-slide-text {
   margin-top: 2rem;
@@ -1658,6 +1715,7 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   flex-wrap: nowrap;
   padding: 0 1rem;
   box-sizing: border-box;
+  flex-shrink: 0;                         /* ← Botones nunca se comprimen ni desaparecen */
 }
 .gallery-btn {
   background: rgba(184,149,42,0.2);
@@ -2083,6 +2141,11 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
         <h4>Tutoría y Presentaciones</h4>
         <p class="skill-short">Comunicación estratégica y formación</p>
       </div>
+      <div class="skill-tile reveal rd8" onclick="showHexModal(8)">
+        <div class="skill-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+        <h4>Atención al Cliente</h4>
+        <p class="skill-short">Servicio, resolución y experiencia al socio</p>
+      </div>
     </div>
   </div>
 </section>
@@ -2480,7 +2543,8 @@ const hexData=[
   {title:'Automatización de Procesos',badge:'acad',badgeLabel:'Habilidad técnica',desc:'Optimización de flujos de trabajo mediante herramientas digitales, tecnológicas y de inteligencia artificial.',details:['Implementación de herramientas para eficiencia operacional','Automatización de tareas repetitivas en entornos administrativos','Integración de soluciones tecnológicas en procesos de trabajo','Mejora continua orientada a resultados medibles']},
   {title:'Gestión de Plataformas',badge:'acad',badgeLabel:'Habilidad técnica',desc:'Manejo de sistemas digitales, plataformas empresariales, herramientas en la nube y software profesional.',details:['Dominio de plataformas financieras y administrativas','Herramientas de productividad, colaboración y gestión','Sistemas de gestión empresarial y documentación digital','Adaptación rápida a nuevas tecnologías y entornos']},
   {title:'Inteligencia Artificial',badge:'acad',badgeLabel:'Habilidad técnica',desc:'Manejo estratégico de múltiples herramientas de IA para productividad, análisis, automatización y comunicación profesional.',details:['Uso avanzado de herramientas de IA generativa y analítica','Integración de IA en flujos de trabajo profesionales','Análisis y procesamiento de datos asistido por IA','Automatización inteligente y optimización de procesos']},
-  {title:'Tutoría y Presentaciones',badge:'acad',badgeLabel:'Competencia desarrollada',desc:'Tutoría asistida, presentaciones corporativas y comunicación estratégica en entornos profesionales y académicos.',details:['Preparación y entrega de presentaciones corporativas','Tutoría asistida en contextos académicos','Comunicación efectiva en entornos profesionales','Base en producción audiovisual y narrativa visual']}
+  {title:'Tutoría y Presentaciones',badge:'acad',badgeLabel:'Competencia desarrollada',desc:'Tutoría asistida, presentaciones corporativas y comunicación estratégica en entornos profesionales y académicos.',details:['Preparación y entrega de presentaciones corporativas','Tutoría asistida en contextos académicos','Comunicación efectiva en entornos profesionales','Base en producción audiovisual y narrativa visual']},
+  {title:'Atención al Cliente',badge:'exp',badgeLabel:'Experiencia directa',desc:'Servicio personalizado al socio y cliente, resolución de casos, gestión de necesidades y comunicación profesional en entornos financieros y cooperativos.',details:['Atención personalizada a socios en Cooperativa Innova COOP','Resolución de situaciones crediticias y de cuenta con enfoque en satisfacción','Comunicación profesional y empática en entornos de alta exigencia','Seguimiento de casos y coordinación con equipos internos']}
 ];
 
 function showHexModal(i){
