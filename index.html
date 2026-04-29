@@ -1917,6 +1917,164 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 }
 .rec-placeholder p { font-size: 1rem; font-weight: 500; margin: 0 0 0.4rem; }
 .rec-placeholder span { font-size: 0.78rem; opacity: 0.6; }
+
+/* ═══════════════════════════════════════════════════════════
+   DECORATIVE GEOMETRIC SHAPES — White/Light sections only
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes floating {
+  0%   { transform: translateY(0px)   rotate(0deg); }
+  33%  { transform: translateY(-12px) rotate(1.5deg); }
+  66%  { transform: translateY(-6px)  rotate(-1deg); }
+  100% { transform: translateY(0px)   rotate(0deg); }
+}
+
+@keyframes floatingAlt {
+  0%   { transform: translateY(0px)  rotate(0deg); }
+  40%  { transform: translateY(10px) rotate(-1.2deg); }
+  75%  { transform: translateY(4px)  rotate(0.8deg); }
+  100% { transform: translateY(0px)  rotate(0deg); }
+}
+
+@keyframes floatingSlide {
+  0%   { transform: translateX(0px)  translateY(0px)  rotate(0deg); }
+  50%  { transform: translateX(10px) translateY(-8px) rotate(1deg); }
+  100% { transform: translateX(0px)  translateY(0px)  rotate(0deg); }
+}
+
+/* Base shape */
+.deco-shape {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;                         /* starts hidden — JS fade-in via IntersectionObserver */
+  transition: opacity 0.9s ease;
+  will-change: transform, opacity;
+}
+.deco-shape.deco-visible { opacity: 1; }
+
+/* Circle */
+.deco-circle {
+  border-radius: 50%;
+  background: #f1f5f9;
+}
+
+/* Rounded rectangle */
+.deco-rect {
+  border-radius: 20px;
+  background: #e2e8f0;
+}
+
+/* Thin ring (circle outline only) */
+.deco-ring {
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid #e2e8f0;
+}
+
+/* ── TIMELINE section shapes ──
+   Tamaño reducido (55–70 px) y dentro del área visible
+   para que la animación sea claramente perceptible.       */
+.timeline-section { position: relative; overflow: hidden; }
+.deco-tl-1 {
+  width: 65px; height: 65px;
+  top: 30px; right: 24px;
+  animation: floating    9s ease-in-out infinite;
+  animation-delay: 0s;
+}
+.deco-tl-2 {
+  width: 40px; height: 90px;
+  bottom: 50px; left: 18px;
+  border-radius: 30px;          /* override .deco-rect for this one */
+  animation: floatingAlt 11s ease-in-out infinite;
+  animation-delay: 1.8s;
+}
+.deco-tl-3 {
+  width: 55px; height: 55px;
+  bottom: 40px; right: 12%;
+  animation: floatingSlide 13s ease-in-out infinite;
+  animation-delay: 3.5s;
+}
+
+/* ── SERVICES section shapes ── */
+.services-section { position: relative; overflow: hidden; }
+.deco-srv-1 {
+  width: 70px; height: 70px;
+  top: 28px; right: 20px;
+  animation: floatingAlt  8s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+.deco-srv-2 {
+  width: 38px; height: 80px;
+  bottom: 60px; left: 22px;
+  animation: floating     12s ease-in-out infinite;
+  animation-delay: 2s;
+}
+.deco-srv-3 {
+  width: 58px; height: 58px;
+  top: 45%; right: 30px;
+  animation: floatingSlide 10s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+/* ── PORTFOLIO section shapes ── */
+.portfolio-section { position: relative; overflow: hidden; }
+.deco-port-1 {
+  width: 62px; height: 62px;
+  top: 25px; left: 22px;
+  animation: floating     10s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+.deco-port-2 {
+  width: 55px; height: 55px;
+  bottom: 28px; right: 22px;
+  animation: floatingAlt   9s ease-in-out infinite;
+  animation-delay: 2.2s;
+}
+.deco-port-3 {
+  width: 80px; height: 36px;
+  top: 40%; right: 8%;
+  animation: floatingSlide 12s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+/* ── CONTACT section shapes ── */
+.contact-section { position: relative; overflow: hidden; }
+.deco-con-1 {
+  width: 68px; height: 68px;
+  top: 26px; left: 20px;
+  animation: floatingAlt  10s ease-in-out infinite;
+  animation-delay: 0.2s;
+}
+.deco-con-2 {
+  width: 38px; height: 82px;
+  bottom: 40px; right: 20px;
+  animation: floating     13s ease-in-out infinite;
+  animation-delay: 1.6s;
+}
+.deco-con-3 {
+  width: 56px; height: 56px;
+  top: 50%; left: 24px;
+  animation: floatingSlide 11s ease-in-out infinite;
+  animation-delay: 3.8s;
+}
+
+/* ── Responsive: escala adicional en móvil + oculta la 3ª forma ── */
+@media (max-width: 767px) {
+  .deco-tl-1, .deco-tl-2,
+  .deco-srv-1, .deco-srv-2,
+  .deco-port-1, .deco-port-2,
+  .deco-con-1, .deco-con-2 {
+    transform: scale(0.75);
+    transform-origin: center;
+  }
+  .deco-tl-3,
+  .deco-srv-3,
+  .deco-port-3,
+  .deco-con-3 {
+    display: none;
+  }
+}
 </style>
 </head>
 <body>
@@ -2122,6 +2280,10 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 
 
 <section class="timeline-section" id="timeline">
+  <!-- Decorative shapes: white/light sections only -->
+  <div class="deco-shape deco-circle deco-tl-1" aria-hidden="true"></div>
+  <div class="deco-shape deco-rect  deco-tl-2" aria-hidden="true"></div>
+  <div class="deco-shape deco-ring  deco-tl-3" aria-hidden="true"></div>
   <div class="container">
     <div class="section-badge reveal">Trayectoria</div>
     <h2 class="section-heading reveal rd1">Experiencia y <em>formación</em></h2>
@@ -2290,6 +2452,10 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 
 <!-- SERVICES -->
 <section class="services-section" id="servicios">
+  <!-- Decorative shapes: white/light sections only -->
+  <div class="deco-shape deco-circle deco-srv-1" aria-hidden="true"></div>
+  <div class="deco-shape deco-rect  deco-srv-2" aria-hidden="true"></div>
+  <div class="deco-shape deco-ring  deco-srv-3" aria-hidden="true"></div>
   <div class="container">
     <div class="section-badge reveal">Servicios &amp; Colaboración</div>
     <h2 class="section-heading reveal rd1">Cómo puedo <em>aportar valor</em></h2>
@@ -2354,6 +2520,10 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 
 <!-- PORTFOLIO GALLERY SECTION -->
 <section class="portfolio-section">
+  <!-- Decorative shapes: white/light sections only -->
+  <div class="deco-shape deco-circle deco-port-1" aria-hidden="true"></div>
+  <div class="deco-shape deco-ring  deco-port-2" aria-hidden="true"></div>
+  <div class="deco-shape deco-rect  deco-port-3" aria-hidden="true"></div>
   <div class="container">
     <div class="portfolio-content">
       <div class="portfolio-decoration" style="left: 25%; top: 10%;"><div class="decoration-line"></div></div>
@@ -2378,6 +2548,10 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
+  <!-- Decorative shapes: white/light sections only -->
+  <div class="deco-shape deco-circle deco-con-1" aria-hidden="true"></div>
+  <div class="deco-shape deco-rect  deco-con-2" aria-hidden="true"></div>
+  <div class="deco-shape deco-ring  deco-con-3" aria-hidden="true"></div>
   <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 5%;">
     <div class="section-badge reveal">Contacto directo</div>
     <h2 class="section-heading reveal rd1">Disponible para colaborar<em>.</em></h2>
@@ -2816,6 +2990,52 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft') prevRecSlide();
   if(e.key==='Escape') closeRecGallery({target:{id:'recommendationsOverlay'}});
 });
+
+// ─── DECORATIVE SHAPES — IntersectionObserver fade-in ───
+(function(){
+  // Collect all decorative shapes
+  const shapes = document.querySelectorAll('.deco-shape');
+  if(!shapes.length) return;
+
+  // Each shape starts with opacity:0 (set in CSS).
+  // We add .deco-visible (opacity:1, transition 0.9s) when the
+  // parent section enters the viewport, and remove it when it leaves.
+  const observer = new IntersectionObserver(
+    function(entries){
+      entries.forEach(function(entry){
+        // Find all deco-shapes that are children of this section
+        const sectionShapes = entry.target.querySelectorAll('.deco-shape');
+        sectionShapes.forEach(function(shape){
+          if(entry.isIntersecting){
+            // Small staggered delay per shape index for a gentle cascade
+            const idx = Array.from(sectionShapes).indexOf(shape);
+            shape.style.transitionDelay = (idx * 0.15) + 's';
+            shape.classList.add('deco-visible');
+          } else {
+            shape.style.transitionDelay = '0s';
+            shape.classList.remove('deco-visible');
+          }
+        });
+      });
+    },
+    {
+      threshold: 0.08,   // trigger when 8% of section is visible
+      rootMargin: '0px 0px -40px 0px'
+    }
+  );
+
+  // Observe only the white/light sections that contain deco-shapes
+  const targetSections = [
+    '.timeline-section',
+    '.services-section',
+    '.portfolio-section',
+    '.contact-section'
+  ];
+  targetSections.forEach(function(sel){
+    const el = document.querySelector(sel);
+    if(el) observer.observe(el);
+  });
+})();
 </script>
 </body>
 </html>
