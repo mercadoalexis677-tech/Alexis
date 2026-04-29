@@ -770,6 +770,28 @@ section { padding:7rem 3rem; }
 .service-arrow { font-size:1rem; color:var(--gold); opacity:0.5; transition:all 0.3s; }
 .service-card:hover .service-arrow { opacity:1; transform:translateX(4px); }
 
+/* ─── SERVICE CARD GOLD VARIANT ─── */
+.service-card-gold {
+  background: var(--grad-gold);
+  border-color: transparent;
+  box-shadow: 0 4px 20px rgba(184,149,42,0.3);
+}
+.service-card-gold .service-icon {
+  background: rgba(13,13,15,0.15);
+  color: var(--ink);
+}
+.service-card-gold .service-label { color: rgba(13,13,15,0.55); }
+.service-card-gold .service-val   { color: var(--ink); }
+.service-card-gold .service-action { color: var(--ink); opacity:0.7; }
+.service-card-gold .service-arrow  { color: var(--ink); opacity:0.6; }
+.service-card-gold:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 36px rgba(184,149,42,0.5), 0 4px 12px rgba(184,149,42,0.2) !important;
+  border-color: transparent;
+}
+.service-card-gold:hover .service-arrow { opacity:1; transform:translateX(4px); }
+.service-card-gold::before { display:none; }
+
 /* ─── CONTACT ─── */
 .contact-section { background:var(--surface); }
 .contact-layout { display:grid; grid-template-columns:1fr 1fr; gap:4rem; }
@@ -2281,7 +2303,7 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
         <span class="future-tag">Visión de largo plazo</span>
       </div>
       <div class="reveal rd4">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScwBNQ8VcgrfOCMDrz9yCGh3ZowJfpPr-OQ34O9DSjMPvr3ug/viewform?usp=header" target="_blank" rel="noopener noreferrer" class="service-card" style="margin-bottom:1rem">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScwBNQ8VcgrfOCMDrz9yCGh3ZowJfpPr-OQ34O9DSjMPvr3ug/viewform?usp=header" target="_blank" rel="noopener noreferrer" class="service-card service-card-gold" style="margin-bottom:1rem">
           <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H3v11h11v-6m-2-7h8M14 7l4 4m-4-4l-4 4"/><path d="M19 13h4v8h-8v-4"/></svg></div>
           <div class="service-text">
             <div class="service-label">Formulario de Solicitud</div>
