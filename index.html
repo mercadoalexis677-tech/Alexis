@@ -2146,6 +2146,259 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
     display: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   EMPRESA — bloque CTA + sección corporativa interna
+   ═══════════════════════════════════════════════════════════ */
+
+/* Bloque CTA antes de Formación y experiencia */
+.empresa-cta-block {
+  max-width: 720px;
+  margin: 5rem auto 3rem;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+.empresa-cta-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1.2rem;
+}
+.empresa-cta-eyebrow::before,
+.empresa-cta-eyebrow::after {
+  content: ''; width: 24px; height: 1px; background: var(--grad-gold);
+}
+.empresa-cta-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.15rem, 2.2vw, 1.55rem); font-weight: 300;
+  color: var(--ink); line-height: 1.4; margin-bottom: 2rem;
+  letter-spacing: -0.3px;
+}
+.empresa-cta-text em {
+  font-style: italic;
+  background: var(--grad-gold); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+.empresa-cta-arrow {
+  display: flex; justify-content: center; margin-top: 1.5rem;
+  color: var(--gold); animation: ctaBounce 2.4s ease-in-out infinite;
+}
+.empresa-cta-arrow svg { width: 20px; height: 20px; }
+@keyframes ctaBounce {
+  0%,100% { transform: translateY(0); opacity: 0.55; }
+  50%     { transform: translateY(6px); opacity: 1; }
+}
+
+/* ─── EMPRESA — OVERLAY a pantalla completa (mismo patrón que portfolio-gallery-overlay) ─── */
+.empresa-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, var(--surface) 0%, #FAFAFC 50%, var(--surface) 100%);
+  z-index: 2000;
+  opacity: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: opacity 0.4s;
+}
+.empresa-overlay.active {
+  display: block;
+  opacity: 1;
+  animation: fadeIn 0.4s ease;
+}
+.empresa-overlay-inner {
+  width: 100%;
+  min-height: 100%;
+  padding: 5rem 0 6rem;
+  position: relative;
+  box-sizing: border-box;
+}
+.empresa-overlay::before,
+.empresa-overlay::after {
+  content: ''; position: fixed; left: 0; right: 0; height: 2px;
+  background: var(--grad-gold); opacity: 0.7; z-index: 2001;
+  pointer-events: none;
+}
+.empresa-overlay::before { top: 0; }
+.empresa-overlay::after { bottom: 0; }
+
+/* Contenedor de la barra superior con el botón Volver a la derecha */
+.empresa-toolbar {
+  display: flex; justify-content: flex-end; align-items: center;
+  margin-bottom: 2.5rem;
+}
+.empresa-back-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--gold); text-decoration: none;
+  padding: 0.6rem 1.2rem; border-radius: var(--r-sm);
+  border: 1px solid rgba(184,149,42,0.35);
+  background: rgba(255,255,255,0.7);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+}
+.empresa-back-btn:hover {
+  background: var(--gold-soft); border-color: var(--gold);
+  transform: translateX(-3px);
+}
+.empresa-back-btn svg { width: 14px; height: 14px; }
+
+/* Header de la sección */
+.empresa-header {
+  text-align: center; max-width: 720px; margin: 0 auto 3.5rem;
+}
+.empresa-header .section-badge { justify-content: center; }
+.empresa-header .section-heading { margin-bottom: 0.5rem; }
+.empresa-subtitle {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 1.1rem; color: var(--gold); margin-bottom: 1.2rem;
+}
+.empresa-header .section-sep { margin: 1.5rem auto; }
+.empresa-header .section-desc { margin: 0 auto; }
+
+/* Grid Misión + Visión */
+.empresa-grid-mv {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+.empresa-card {
+  background: var(--white); border-radius: var(--r); padding: 2.2rem;
+  border: 1px solid var(--line); cursor: default;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  position: relative; overflow: hidden;
+}
+.empresa-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+  background: var(--grad-gold); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s;
+}
+.empresa-card:hover {
+  transform: translateY(-3px); box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.empresa-card:hover::before { transform: scaleX(1); }
+
+.empresa-card-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--gold-soft);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); margin-bottom: 1.2rem;
+}
+.empresa-card-icon svg { width: 22px; height: 22px; }
+.empresa-card-label {
+  font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500;
+  letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.empresa-card-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.8rem; line-height: 1.2;
+}
+.empresa-card-text {
+  font-size: 0.92rem; color: var(--slate); line-height: 1.85;
+  font-style: italic;
+}
+
+/* Bloque Valores */
+.empresa-values-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300;
+  color: var(--ink); text-align: center; margin-bottom: 0.5rem;
+}
+.empresa-values-title em {
+  font-style: italic;
+  background: var(--grad-gold); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+.empresa-values-sep {
+  width: 40px; height: 1px; background: var(--grad-gold);
+  margin: 0 auto 2.5rem;
+}
+.empresa-values-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
+}
+.empresa-value-card {
+  background: var(--white); border-radius: var(--r); padding: 1.8rem 1.4rem;
+  border: 1px solid var(--line);
+  text-align: left; position: relative; overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.empresa-value-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+  background: var(--grad-gold); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s;
+}
+.empresa-value-card:hover {
+  transform: translateY(-4px); box-shadow: var(--shadow-md);
+  border-color: transparent;
+}
+.empresa-value-card:hover::before { transform: scaleX(1); }
+.empresa-value-num {
+  position: absolute; top: 1.2rem; right: 1.4rem;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 1.3rem; color: var(--ghost); opacity: 0.5;
+}
+.empresa-value-icon {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--gold-soft);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); margin-bottom: 1.1rem;
+}
+.empresa-value-icon svg { width: 22px; height: 22px; }
+.empresa-value-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.5rem; line-height: 1.25;
+}
+.empresa-value-text {
+  font-size: 0.82rem; color: var(--slate); line-height: 1.7;
+}
+
+/* Decoraciones específicas de la sección Empresa */
+.deco-emp-1 {
+  width: 65px; height: 65px;
+  top: 80px; right: 24px;
+  animation: floating 9s ease-in-out infinite;
+  animation-delay: 0s;
+}
+.deco-emp-2 {
+  width: 40px; height: 90px;
+  bottom: 70px; left: 18px;
+  border-radius: 30px;
+  animation: floatingAlt 11s ease-in-out infinite;
+  animation-delay: 1.8s;
+}
+.deco-emp-3 {
+  width: 55px; height: 55px;
+  bottom: 50px; right: 12%;
+  animation: floatingSlide 13s ease-in-out infinite;
+  animation-delay: 3.5s;
+}
+
+/* Ajuste fino del nav desktop con 8 items (rango 769-1100px) */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .nav-links { gap: 0.4rem; }
+  .nav-links a:not(.nav-cta) { font-size: 0.6rem; letter-spacing: 1px; }
+  .nav-cta { padding: 0.5rem 1.2rem !important; font-size: 0.6rem !important; }
+}
+
+/* Responsive — Tablet: valores 2x2 */
+@media (max-width: 1023px) {
+  .empresa-values-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Responsive — Móvil: 1 columna + ajustes */
+@media (max-width: 767px) {
+  .empresa-overlay-inner { padding: 4rem 0 5rem; }
+  .empresa-toolbar { justify-content: flex-end; margin-bottom: 1.8rem; padding-right: 0.5rem; }
+  .empresa-grid-mv { grid-template-columns: 1fr; gap: 1rem; }
+  .empresa-values-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .empresa-card { padding: 1.7rem; }
+  .deco-emp-1, .deco-emp-2 {
+    transform: scale(0.75);
+    transform-origin: center;
+  }
+  .deco-emp-3 { display: none; }
+}
 </style>
 </head>
 <body>
@@ -2170,6 +2423,7 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
     <ul class="nav-links" id="navLinks">
       <li><a href="#agenda"   onclick="closeNav()" class="nav-link nav-cta">Agendar cita</a></li>
       <li><a href="#"         onclick="openRecGallery(); closeNav(); return false;" class="nav-link">Cartas de recomendación</a></li>
+      <li><a href="javascript:void(0)" onclick="openEmpresa(); return false;" class="nav-link">Empresa</a></li>
       <li><a href="#timeline" onclick="closeNav()" class="nav-link">Formación y experiencia</a></li>
       <li><a href="#skills"   onclick="closeNav()" class="nav-link">Áreas de experiencia</a></li>
       <li><a href="#servicios" onclick="closeNav()" class="nav-link">Servicios</a></li>
@@ -2348,6 +2602,129 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
     </div>
   </div>
 </section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     BLOQUE CTA — entrada a la sección corporativa Empresa
+     ═══════════════════════════════════════════════════════════ -->
+<div class="empresa-cta-block">
+  <div class="empresa-cta-eyebrow reveal">Corporativo</div>
+  <p class="empresa-cta-text reveal rd1">
+    Conoce la <em>visión empresarial</em><br>
+    detrás de mi propuesta profesional.
+  </p>
+  <a href="javascript:void(0)" onclick="openEmpresa(); return false;" class="btn btn-gold reveal rd2">
+    Conoce Nuestra Empresa
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </a>
+  <div class="empresa-cta-arrow reveal rd3" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     OVERLAY EMPRESA — micrositio corporativo a pantalla completa
+     Mismo patrón que portfolio-gallery-overlay
+     Se abre con openEmpresa() — se cierra con closeEmpresa()
+     ═══════════════════════════════════════════════════════════ -->
+<div class="empresa-overlay" id="empresaOverlay">
+ <div class="empresa-overlay-inner">
+  <!-- Decoraciones flotantes (ya visibles porque solo se renderizan al abrir el overlay) -->
+  <div class="deco-shape deco-circle deco-emp-1 deco-visible" aria-hidden="true"></div>
+  <div class="deco-shape deco-rect  deco-emp-2 deco-visible" aria-hidden="true"></div>
+  <div class="deco-shape deco-ring  deco-emp-3 deco-visible" aria-hidden="true"></div>
+
+  <div class="container">
+
+    <!-- Botón único: Volver al portafolio (arriba a la derecha) -->
+    <div class="empresa-toolbar reveal">
+      <a href="javascript:void(0)" onclick="closeEmpresa(); return false;" class="empresa-back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Volver al portafolio
+      </a>
+    </div>
+
+    <!-- Header de la sección -->
+    <div class="empresa-header">
+      <div class="section-badge reveal">División Corporativa</div>
+      <h2 class="section-heading reveal rd1"><em>Empresa</em></h2>
+      <p class="empresa-subtitle reveal rd2">Estructura, cumplimiento y gestión administrativa con visión humana.</p>
+      <div class="section-sep reveal rd2"></div>
+      <p class="section-desc reveal rd3">Una propuesta empresarial enfocada en ayudar a negocios y organizaciones a trabajar con más orden, claridad y seguridad administrativa.</p>
+    </div>
+
+    <!-- Grid Misión + Visión -->
+    <div class="empresa-grid-mv">
+
+      <div class="empresa-card reveal rd1">
+        <div class="empresa-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div class="empresa-card-label">Misión</div>
+        <h3 class="empresa-card-title">Nuestra razón de ser</h3>
+        <p class="empresa-card-text">"Transformar la complejidad administrativa en una ventaja estratégica. Estructuramos y optimizamos tus procesos operativos y legales, dándote la libertad y seguridad para enfocarte en crecer tu negocio en Puerto Rico."</p>
+      </div>
+
+      <div class="empresa-card reveal rd2">
+        <div class="empresa-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="empresa-card-label">Visión</div>
+        <h3 class="empresa-card-title">Hacia dónde vamos</h3>
+        <p class="empresa-card-text">"Elevar el estándar de la gestión administrativa en la isla. Convertimos el cumplimiento y la organización interna en tranquilidad y rentabilidad, haciendo de tu empresa un referente de orden y excelencia humana."</p>
+      </div>
+
+    </div>
+
+    <!-- Título Valores -->
+    <h3 class="empresa-values-title reveal">Valores <em>corporativos</em></h3>
+    <div class="empresa-values-sep reveal rd1"></div>
+
+    <!-- Grid Valores (4 tarjetas) -->
+    <div class="empresa-values-grid">
+
+      <div class="empresa-value-card reveal rd1">
+        <span class="empresa-value-num">I</span>
+        <div class="empresa-value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <h4 class="empresa-value-title">Rigor y Fundamento Técnico</h4>
+        <p class="empresa-value-text">Basamos cada decisión en la normativa vigente y datos reales. Cero improvisación, máxima precisión.</p>
+      </div>
+
+      <div class="empresa-value-card reveal rd2">
+        <span class="empresa-value-num">II</span>
+        <div class="empresa-value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h4 class="empresa-value-title">Capacidad de Respuesta Ágil</h4>
+        <p class="empresa-value-text">Tu negocio no puede esperar. Brindamos soluciones rápidas y oportunas sin sacrificar la calidad.</p>
+      </div>
+
+      <div class="empresa-value-card reveal rd3">
+        <span class="empresa-value-num">III</span>
+        <div class="empresa-value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><rect x="9" y="11" width="6" height="6" rx="1"/><path d="M10 11V9a2 2 0 0 1 4 0v2"/></svg>
+        </div>
+        <h4 class="empresa-value-title">Compromiso de Blindaje</h4>
+        <p class="empresa-value-text">Somos tu aliado protector. Aseguramos el cumplimiento total para cuidar la reputación de tu empresa.</p>
+      </div>
+
+      <div class="empresa-value-card reveal rd4">
+        <span class="empresa-value-num">IV</span>
+        <div class="empresa-value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="18" cy="9" r="2"/><path d="M18 11v3M16 12.5h4"/></svg>
+        </div>
+        <h4 class="empresa-value-title">Eficiencia con Enfoque Humano</h4>
+        <p class="empresa-value-text">Rentabilidad y bienestar van de la mano. Creamos entornos productivos que retienen al mejor talento.</p>
+      </div>
+
+    </div>
+
+  </div><!-- /.container -->
+ </div><!-- /.empresa-overlay-inner -->
+</div><!-- /.empresa-overlay -->
 
 
 <section class="timeline-section" id="timeline">
@@ -2842,6 +3219,38 @@ function closeNav(){
   document.body.style.overflow='';
 }
 
+// ═══ EMPRESA — Overlay a pantalla completa ═══
+// Mismo patrón que openPortfolioGallery / openRecGallery.
+// Abre un overlay fixed que cubre toda la pantalla con Misión/Visión/Valores.
+function openEmpresa(){
+  closeNav();                                       // cierra menú móvil si estaba abierto
+  const overlay = document.getElementById('empresaOverlay');
+  if(!overlay) return;
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';          // bloquea scroll del fondo
+  overlay.scrollTop = 0;                            // overlay siempre arranca arriba
+  // Reactivar las animaciones reveal dentro del overlay
+  setTimeout(function(){
+    overlay.querySelectorAll('.reveal').forEach(function(el){
+      el.classList.remove('vis');
+      setTimeout(function(){ el.classList.add('vis'); }, 60);
+    });
+  }, 50);
+}
+function closeEmpresa(){
+  const overlay = document.getElementById('empresaOverlay');
+  if(!overlay) return;
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';                // restaura scroll del portafolio
+}
+// Cerrar overlay con tecla ESC (igual que las galerías)
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    const ov = document.getElementById('empresaOverlay');
+    if(ov && ov.classList.contains('active')) closeEmpresa();
+  }
+});
+
 // ═══ MOBILE MENU AUTO-CLOSE ON LINK CLICK ═══
 document.addEventListener('DOMContentLoaded', function() {
   const navLinks = document.getElementById('navLinks');
@@ -3122,6 +3531,8 @@ document.addEventListener('keydown',e=>{
   );
 
   // Observe only the white/light sections that contain deco-shapes
+  // (.empresa-overlay no se incluye porque es un fixed overlay — sus deco-shapes
+  //  tienen .deco-visible directamente en el HTML)
   const targetSections = [
     '.timeline-section',
     '.services-section',
