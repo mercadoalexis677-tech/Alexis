@@ -95,6 +95,7 @@ body {
 
 /* ─── CURSOR ─── */
 .cursor { position:fixed; pointer-events:none; z-index:99999; mix-blend-mode:difference; }
+#cursorRing { z-index:99998; } /* [optimización 2026-05-02] movido desde inline style */
 .cursor-dot { width:8px; height:8px; background:var(--white); border-radius:50%; transform:translate(-50%,-50%); transition:transform 0.1s; }
 .cursor-ring { width:36px; height:36px; border:1.5px solid rgba(255,255,255,0.5); border-radius:50%; transform:translate(-50%,-50%); transition:transform 0.15s ease, width 0.3s, height 0.3s, border-color 0.3s; }
 body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width:52px; height:52px; border-color:rgba(255,255,255,0.8); }
@@ -708,17 +709,7 @@ section { padding:7rem 3rem; }
 
 .prof-card h4 { font-family:'Cormorant Garamond', serif; font-size:1.2rem; font-weight:600; color:var(--ink); margin-bottom:0.7rem; position:relative; z-index:2; }
 .prof-short { font-size:0.86rem; color:var(--muted); line-height:1.8; position:relative; z-index:2; }
-.prof-extra { max-height:0; overflow:hidden; transition:max-height 0.5s cubic-bezier(0.16,1,0.3,1); }
-.prof-extra.open { max-height:300px; }
-.prof-extra-inner { padding-top:1rem; margin-top:1rem; border-top:1px solid var(--line); font-size:0.84rem; color:var(--slate); line-height:1.85; position:relative; z-index:2; }
-.prof-toggle {
-  font-family:'DM Sans', sans-serif; font-size:0.68rem; font-weight:600;
-  color:var(--gold); background:none; border:none; cursor:pointer;
-  margin-top:0.9rem; display:flex; align-items:center; gap:0.35rem;
-  letter-spacing:0.5px; text-transform:uppercase; position:relative; z-index:2;
-}
-.prof-toggle svg { width:14px; height:14px; transition:transform 0.3s; }
-.prof-toggle.open svg { transform:rotate(180deg); }
+/* [optimización 2026-05-02] Eliminado CSS no utilizado: .prof-extra, .prof-extra-inner, .prof-toggle — la función toggleProf() nunca se invocaba en HTML */
 
 /* ─── VISION BAND ─── */
 .vision-band {
@@ -913,6 +904,9 @@ footer {
 .footer-logo-text { font-family:'Cormorant Garamond', serif; font-size:0.9rem; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.4); }
 .footer-copy { font-size:0.7rem; color:var(--ghost); letter-spacing:0.5px; }
 .footer-copy span { color:rgba(255,255,255,0.5); font-weight:500; }
+/* [optimización 2026-05-02] Hover de íconos del footer movido desde inline JS */
+.footer-icon { color:var(--ghost); transition:color 0.3s; }
+.footer-icon:hover { color:var(--gold-2); }
 
 /* ─── SERVICES AREA — valor futuro ─── */
 .services-intro {
@@ -1375,40 +1369,7 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
   margin-bottom: 1.8rem;
   position: relative; z-index: 1;
 }
-.bc-features {
-  display: flex; flex-direction: column; gap: 0.85rem;
-  margin-bottom: 2rem;
-  position: relative; z-index: 1;
-}
-.bc-feature {
-  display: flex; align-items: center; gap: 0.8rem;
-  font-size: 0.8rem; color: rgba(255,255,255,0.5);
-  transition: color 0.3s;
-}
-.bc-feature:hover { color: rgba(255,255,255,0.75); }
-.bc-feature svg { width: 15px; height: 15px; color: var(--gold-2); flex-shrink: 0; }
-.bc-btn {
-  display: flex; align-items: center; justify-content: center; gap: 0.7rem;
-  width: 100%;
-  padding: 1rem 1.5rem;
-  background: rgba(184,149,42,0.08);
-  border: 1px solid rgba(184,149,42,0.3);
-  border-radius: var(--r-sm);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-  color: var(--gold-2);
-  text-decoration: none; cursor: pointer;
-  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-  position: relative; z-index: 1; overflow: hidden;
-}
-.bc-btn::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--grad-gold); opacity: 0; transition: opacity 0.35s;
-}
-.bc-btn:hover::before { opacity: 1; }
-.bc-btn:hover { color: var(--ink); box-shadow: 0 8px 28px rgba(184,149,42,0.35); transform: translateY(-2px); border-color: transparent; }
-.bc-btn span, .bc-btn svg { position: relative; z-index: 1; }
-.bc-btn svg { width: 16px; height: 16px; }
+/* [optimización 2026-05-02] Eliminado CSS no utilizado: .bc-features, .bc-feature, .bc-btn — sin referencias en HTML */
 .bc-status {
   display: inline-flex; align-items: center; gap: 0.5rem;
   margin-bottom: 1.5rem;
@@ -2151,42 +2112,85 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
    EMPRESA — bloque CTA + sección corporativa interna
    ═══════════════════════════════════════════════════════════ */
 
-/* Bloque CTA antes de Formación y experiencia */
-.empresa-cta-block {
+/* Bloque CTA antes de Formación y experiencia — tarjeta oscura elegante */
+.empresa-cta-wrap {
   max-width: 720px;
-  margin: 5rem auto 3rem;
+  margin: 5rem auto 4rem;
   padding: 0 1.5rem;
+}
+.empresa-cta-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--grad-dark);
+  border: 1px solid rgba(184,149,42,0.18);
+  border-radius: var(--r-lg);
+  padding: 3rem 2.5rem;
   text-align: center;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.02) inset;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s, border-color 0.5s;
 }
-.empresa-cta-eyebrow {
+.empresa-cta-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.45), 0 0 0 1px rgba(184,149,42,0.25);
+  border-color: rgba(184,149,42,0.35);
+}
+.empresa-cta-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--grad-gold);
+  z-index: 2;
+}
+.empresa-cta-card::after {
+  content: ''; position: absolute;
+  top: -80px; right: -80px; width: 240px; height: 240px;
+  background: radial-gradient(circle, rgba(184,149,42,0.10), transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.empresa-cta-card .bc-icon-wrap {
+  margin: 0 auto 1.5rem;
+}
+.empresa-cta-card .bc-label {
   display: inline-flex; align-items: center; gap: 0.7rem;
-  font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500;
-  letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.9rem;
 }
-.empresa-cta-eyebrow::before,
-.empresa-cta-eyebrow::after {
-  content: ''; width: 24px; height: 1px; background: var(--grad-gold);
+.empresa-cta-card .bc-label::before,
+.empresa-cta-card .bc-label::after {
+  content: ''; width: 22px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184,149,42,0.5), transparent);
 }
-.empresa-cta-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.15rem, 2.2vw, 1.55rem); font-weight: 300;
-  color: var(--ink); line-height: 1.4; margin-bottom: 2rem;
-  letter-spacing: -0.3px;
+.empresa-cta-card .bc-heading {
+  font-size: clamp(1.7rem, 3vw, 2.1rem);
+  margin-bottom: 1.1rem;
 }
-.empresa-cta-text em {
-  font-style: italic;
-  background: var(--grad-gold); -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; background-clip: text;
+.empresa-cta-card .bc-desc {
+  max-width: 460px;
+  margin: 0 auto 1.6rem;
 }
-.empresa-cta-arrow {
-  display: flex; justify-content: center; margin-top: 1.5rem;
-  color: var(--gold); animation: ctaBounce 2.4s ease-in-out infinite;
+.empresa-cta-card .bc-sep {
+  max-width: 280px;
+  margin: 0 auto 1.8rem;
+  background: linear-gradient(90deg, transparent, rgba(184,149,42,0.45), transparent);
 }
-.empresa-cta-arrow svg { width: 20px; height: 20px; }
-@keyframes ctaBounce {
-  0%,100% { transform: translateY(0); opacity: 0.55; }
-  50%     { transform: translateY(6px); opacity: 1; }
+.empresa-cta-card .empresa-cta-btn {
+  display: inline-flex; align-items: center; gap: 0.65rem;
+  margin: 0 auto;
+  position: relative; z-index: 1;
+}
+.empresa-cta-card .empresa-cta-btn svg {
+  transition: transform 0.3s ease;
+}
+.empresa-cta-card .empresa-cta-btn:hover svg {
+  transform: translateX(4px);
+}
+@media (max-width: 768px) {
+  .empresa-cta-wrap { margin: 4rem auto 3rem; padding: 0 1rem; }
+  .empresa-cta-card { padding: 2.5rem 1.5rem; }
+  .empresa-cta-card .bc-heading { font-size: 1.55rem; }
+}
+@media (max-width: 480px) {
+  .empresa-cta-card { padding: 2.2rem 1.2rem; }
+  .empresa-cta-card .bc-heading { font-size: 1.4rem; }
+  .empresa-cta-card .bc-desc { font-size: 0.8rem; }
 }
 
 /* ─── EMPRESA — OVERLAY a pantalla completa (mismo patrón que portfolio-gallery-overlay) ─── */
@@ -2407,7 +2411,7 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 <div class="cursor" id="cursor">
   <div class="cursor-dot" id="cursorDot"></div>
 </div>
-<div class="cursor" id="cursorRing" style="position:fixed;pointer-events:none;z-index:99998;">
+<div class="cursor" id="cursorRing">
   <div class="cursor-ring" id="cursorRingEl"></div>
 </div>
 
@@ -2606,19 +2610,34 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 
 <!-- ═══════════════════════════════════════════════════════════
      BLOQUE CTA — entrada a la sección corporativa Empresa
+     Tarjeta oscura elegante (estilo "Avales y Recomendaciones")
      ═══════════════════════════════════════════════════════════ -->
-<div class="empresa-cta-block">
-  <div class="empresa-cta-eyebrow reveal">Corporativo</div>
-  <p class="empresa-cta-text reveal rd1">
-    Conoce la <em>visión empresarial</em><br>
-    detrás de mi propuesta profesional.
-  </p>
-  <a href="javascript:void(0)" onclick="openEmpresa(); return false;" class="btn btn-gold reveal rd2">
-    Conoce Nuestra Empresa
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-  </a>
-  <div class="empresa-cta-arrow reveal rd3" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+<div class="empresa-cta-wrap">
+  <div class="empresa-cta-card reveal">
+    <div class="bc-icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 21h18"/>
+        <path d="M5 21V7l8-4v18"/>
+        <path d="M19 21V11l-6-4"/>
+        <line x1="9" y1="9" x2="9" y2="9.01"/>
+        <line x1="9" y1="12" x2="9" y2="12.01"/>
+        <line x1="9" y1="15" x2="9" y2="15.01"/>
+        <line x1="9" y1="18" x2="9" y2="18.01"/>
+      </svg>
+    </div>
+    <p class="bc-label">Corporativo</p>
+    <h3 class="bc-heading">Conoce Nuestra<br>Empresa</h3>
+    <p class="bc-desc">
+      Descubre la misión, visión y valores que sostienen mi propuesta empresarial.
+    </p>
+    <div class="bc-sep"></div>
+    <button type="button" onclick="openEmpresa(); return false;" class="btn btn-gold btn-large empresa-cta-btn">
+      Explorar la empresa
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </button>
   </div>
 </div>
 
@@ -3040,7 +3059,7 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
 <div class="gold-divider"></div>
 <footer>
   <div class="footer-logo">
-    <img src="" alt="AJMC" id="footerLogo">
+    <img alt="AJMC" id="footerLogo">
     <div>
       <span class="footer-logo-text">AJMC · RRHH Consulting</span>
       <p style="font-size:0.62rem;color:var(--ghost);margin-top:0.2rem;letter-spacing:0.5px">Administración · Recursos Humanos · Puerto Rico</p>
@@ -3051,13 +3070,13 @@ nav.scrolled .nav-cta { background:var(--gold) !important; color:var(--white) !i
     <p style="font-size:0.62rem;color:var(--ghost);letter-spacing:0.5px">Todos los derechos reservados.</p>
   </div>
   <div style="display:flex;gap:1rem;align-items:center">
-    <a href="javascript:void(0)" onclick="window.location.href=atob('bWFpbHRvOm1lcmNhZG9hbGV4aXM2NzdAZ21haWwuY29t')" style="color:var(--ghost);transition:color 0.3s" onmouseenter="this.style.color='var(--gold-2)'" onmouseleave="this.style.color='var(--ghost)'">
+    <a href="javascript:void(0)" onclick="window.location.href=atob('bWFpbHRvOm1lcmNhZG9hbGV4aXM2NzdAZ21haWwuY29t')" class="footer-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
     </a>
-    <a href="https://www.linkedin.com/in/alexis-mercado-58899b395" target="_blank" rel="noopener noreferrer" style="color:var(--ghost);transition:color 0.3s" onmouseenter="this.style.color='var(--gold-2)'" onmouseleave="this.style.color='var(--ghost)'">
+    <a href="https://www.linkedin.com/in/alexis-mercado-58899b395" target="_blank" rel="noopener noreferrer" class="footer-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
     </a>
-    <a href="javascript:void(0)" onclick="window.location.href=atob('dGVsOisxOTM5NDI4MjgyMA==')" style="color:var(--ghost);transition:color 0.3s" onmouseenter="this.style.color='var(--gold-2)'" onmouseleave="this.style.color='var(--ghost)'">
+    <a href="javascript:void(0)" onclick="window.location.href=atob('dGVsOisxOTM5NDI4MjgyMA==')" class="footer-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
     </a>
   </div>
@@ -3294,8 +3313,7 @@ function switchTl(tab,btn){
 }
 function toggleTl(card){const d=card.querySelector('.tl-details'),b=card.querySelector('.tl-expand');d.classList.toggle('open');b.classList.toggle('open');b.querySelector('span').textContent=d.classList.contains('open')?'Ocultar detalles':'Ver detalles'}
 
-// ─── PROFILE CARDS ───
-function toggleProf(card){const e=card.querySelector('.prof-extra'),b=card.querySelector('.prof-toggle');e.classList.toggle('open');b.classList.toggle('open');b.querySelector('span').textContent=e.classList.contains('open')?'Ver menos':'Leer más'}
+// [optimización 2026-05-02] Eliminada función toggleProf() — nunca se invocaba en HTML
 
 // ─── COPY EMAIL ───
 function copyEmail(){var e=atob('bWVyY2Fkb2FsZXhpczY3N0BnbWFpbC5jb20=');navigator.clipboard.writeText(e).then(()=>showToast('Correo copiado al portapapeles'))}
